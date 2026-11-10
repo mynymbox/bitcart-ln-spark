@@ -1,0 +1,1 @@
+# Lightning Spark Bitcart plugin

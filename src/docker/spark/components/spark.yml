@@ -1,0 +1,41 @@
+services:
+  spark:
+    restart: unless-stopped
+    build:
+      context: ./plugins/docker/mynymbox_spark
+      dockerfile: Dockerfile
+    environment:
+      SPARK_BRIDGE_PORT: "5055"
+      SPARK_BRIDGE_SECRET: ${SPARK_BRIDGE_SECRET:-}
+      SPARK_BRIDGE_AUTH_FILE: /auth/secret
+    volumes:
+      - spark_bridge_auth:/auth
+    expose:
+      - "5055"
+
+  backend:
+    depends_on:
+      - spark
+    links:
+      - spark
+    environment:
+      SPARK_BRIDGE_URL: ${SPARK_BRIDGE_URL:-http://spark:5055}
+      SPARK_BRIDGE_SECRET: ${SPARK_BRIDGE_SECRET:-}
+      SPARK_BRIDGE_AUTH_FILE: /auth/secret
+    volumes:
+      - spark_bridge_auth:/auth:ro
+
+  worker:
+    depends_on:
+      - spark
+    links:
+      - spark
+    environment:
+      SPARK_BRIDGE_URL: ${SPARK_BRIDGE_URL:-http://spark:5055}
+      SPARK_BRIDGE_SECRET: ${SPARK_BRIDGE_SECRET:-}
+      SPARK_BRIDGE_AUTH_FILE: /auth/secret
+    volumes:
+      - spark_bridge_auth:/auth:ro
+
+volumes:
+  spark_bridge_auth:

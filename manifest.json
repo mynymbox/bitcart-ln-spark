@@ -1,0 +1,16 @@
+{
+  "$schema": "https://bitcart.ai/schemas/plugin/1.3.0/plugin.schema.json",
+  "name": "Lightning Spark",
+  "author": "mynymbox",
+  "license": "MIT",
+  "website": "https://spark.money",
+  "docs_url": "https://docs.spark.money/api-reference/overview",
+  "version": "1.0.0",
+  "description": "Accept Bitcoin Lightning payments into a Spark wallet, then cooperatively sweep to on-chain Bitcoin after a threshold.",
+  "constraints": { "bitcart": "" },
+  "installs": [
+    { "type": "backend", "path": "src/backend/spark" },
+    { "type": "admin", "path": "src/admin/spark" },
+    { "type": "docker", "path": "src/docker/spark" }
+  ]
+}
